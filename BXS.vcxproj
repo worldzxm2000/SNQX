@@ -173,7 +173,7 @@
   <ItemGroup>
     <ClCompile Include="MyButton.cpp" />
     <ClCompile Include="ControlUI.cpp" />
-    <ClCompile Include="BXS.cpp" />
+    <ClCompile Include="SNQX.cpp" />
     <ClCompile Include="SwitchButton.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -190,7 +190,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -D_UNICODE -DWIN32 -DSH_TRSF_SJD_LIBRARY -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_CORE_LIB -DNDEBUG -DQT_GUI_LIB -DQT_WIDGETS_LIB -D_WINDLL  "-I.\GeneratedFiles\$(ConfigurationName)\." "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I.\release" "-I$(QTDIR)\mkspecs\win32-msvc" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets"</Command>
     </QtMoc>
     <QtMoc Include="MyButton.h" />
-    <ClInclude Include="BXS.h" />
+    <ClInclude Include="SNQX.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">

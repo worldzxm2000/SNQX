@@ -45,22 +45,22 @@
     <ClCompile Include="MyButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BXS.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ControlUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SwitchButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SNQX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BXS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_ControlUI.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SNQX.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,7 +11,6 @@ ControlUI::ControlUI(QWidget *parent)
 	connect(ui.MinBtn, SIGNAL(clicked()), this, SLOT(slot_minWindow()));//最小化按钮
 	connect(ui.CloseBtn, SIGNAL(clicked()), this, SLOT(close()));//关闭按钮
 	cmmIndex = 0;
-
 	m_pLoadingLabel = new QLabel(this);
 	m_pLoadingLabel->setGeometry(this->width() / 2 - 80, this->height() / 2 - 150, 150, 150);
 	m_pLoadingLabel->setStyleSheet("QLabel {background-color: transparent;}");
@@ -21,17 +20,17 @@ ControlUI::ControlUI(QWidget *parent)
 	connect(m_pTimer, SIGNAL(timeout()), this, SLOT(updatePixmap()));
 	StartAnimation();
 
-	connect(ui.TRBtn, SIGNAL(checkedChanged(bool)), this, SLOT(on_TRBtn_clicked(bool)));
+	/*connect(ui.TRBtn, SIGNAL(checkedChanged(bool)), this, SLOT(on_TRBtn_clicked(bool)));
 	connect(ui.WDBtn, SIGNAL(checkedChanged(bool)), this, SLOT(on_WDBtn_clicked(bool )));
-	connect(ui.FXBtn, SIGNAL(checkedChanged(bool)), this, SLOT(on_FXBtn_clicked(bool )));
-	connect(ui.ZWXBtn, SIGNAL(checkedChanged(bool)), this, SLOT(on_ZWXBtn_clicked(bool )));
+	connect(ui.FXBtn, SIGNAL(checkedChanged(bool)), this, SLOT(on_FXBtn_clicked(bool )));*/
+	/*connect(ui.ZWXBtn, SIGNAL(checkedChanged(bool)), this, SLOT(on_ZWXBtn_clicked(bool )));
 	connect(ui.FSBtn, SIGNAL(checkedChanged(bool )), this, SLOT(on_FSBtn_clicked(bool )));
 	connect(ui.GZDBtn, SIGNAL(checkedChanged(bool )), this, SLOT(on_GZDBtn_clicked(bool )));
 	connect(ui.QYBtn, SIGNAL(checkedChanged(bool )), this, SLOT(on_QYBtn_clicked(bool )));
 	connect(ui.GHYXBtn, SIGNAL(checkedChanged(bool )), this, SLOT(on_GHYXBtn_clicked(bool )));
 	connect(ui.EYHTBtn, SIGNAL(checkedChanged(bool )), this, SLOT(on_EYHTBtn_clicked(bool )));
 	connect(ui.CZSBtn, SIGNAL(checkedChanged(bool )), this, SLOT(on_CZSBtn_clicked(bool )));
-	connect(ui.YLBtn, SIGNAL(checkedChanged(bool )), this, SLOT(on_YLBtn_clicked(bool )));
+	connect(ui.YLBtn, SIGNAL(checkedChanged(bool )), this, SLOT(on_YLBtn_clicked(bool )));*/
 }
 
 ControlUI::~ControlUI()
@@ -41,6 +40,10 @@ ControlUI::~ControlUI()
 
 void ControlUI::closeEvent(QCloseEvent *event)
 {
+	if (event==NULL)
+	{
+		return;
+	}
 	QWidget::close();
 	*isActive = false;
 	delete this;
@@ -355,9 +358,9 @@ void ControlUI::on_WIPBtn_clicked()
 	 chk += bytes[7];
 	 bytes[8] = 0;
 	 chk += bytes[8];
-	 bytes[9] = addr;
+	 bytes[9] = addr & 0xff;
 	 chk += bytes[9];
-	 bytes[10] = (addr >> 8) & 0xff;//地址高八位 
+	 bytes[10] = (addr >> 8) & 0xff;//地址高八位
 	 chk += bytes[10];
 	 bytes[11] = chk & 0xff;//校验位 低八位
 	 bytes[12] = (chk >> 8) & 0xff;//高八位
@@ -399,599 +402,599 @@ void ControlUI::on_WIPBtn_clicked()
 	 StartAnimation();
  }
 
- //土壤水分传感器开关
-void ControlUI::on_TRBtn_clicked(bool check)
-{
-	////状态改变
-	//cmmIndex = 2208;
-	//int chk = 0;
-	//int SrcAdrr = StationID.toInt();
-	//BYTE bytes[1024] = { 0 };
-	//bytes[0] = 0xaa;
-	//bytes[1] = 0x11;//帧长度
-	//bytes[2] = 0x00;//帧长度
-	//bytes[3] = 0x8f;//帧命令
-	//chk += bytes[3];
-	//bytes[4] = 0x08;//帧命令
-	//chk += bytes[4];
-	//bytes[5] = SrcAdrr & 0xff;//源地址
-	//chk += bytes[5];
-	//bytes[6] = (SrcAdrr >> 8) & 0xff;
-	//chk += bytes[6];
-	//bytes[7] = 0;//源地址
-	//chk += bytes[7];
-	//bytes[8] = 0;
-	//chk += bytes[8];
-	//bytes[9] = check;//土壤水分
-	//chk += bytes[9];
-	//bytes[10] = ui.WDBtn->getChecked();//空气温度
-	//chk += bytes[10];
-	//bytes[11] = ui.QYBtn->getChecked();//气压
-	//chk += bytes[11];
-	//bytes[12] = ui.FXBtn->getChecked();//风向风速
-	//chk += bytes[12];
-	//bytes[13] = ui.FSBtn->getChecked();//辐射
-	//chk += bytes[13];
-	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
-	//chk += bytes[14];
-	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
-	//chk += bytes[15];
-	//bytes[16] = ui.GZDBtn->getChecked();//光照度
-	//chk += bytes[16];
-	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
-	//chk += bytes[17];
-	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
-	//chk += bytes[18];
-	//bytes[19] = ui.YLBtn->getChecked();//雨量
-	//chk += bytes[19];
-	//bytes[20] = chk & 0xff;//校验位 低八位
-	//bytes[21] = (chk >> 8) & 0xff;//高八位
-	//bytes[22] = 0xdd;
-	//bytes[23] = 0xff;
-	//bytes[24] = 0xff;
-	//::send(Socket, (char *)bytes, 25, 0);
-	//StartAnimation();
-}
-
-//温度传感器开关
-void ControlUI::on_WDBtn_clicked(bool check)
-{
-	////状态改变
-	//cmmIndex = 2209;
-	//int chk = 0;
-	//int SrcAdrr = StationID.toInt();
-	//BYTE bytes[1024] = { 0 };
-	//bytes[0] = 0xaa;
-	//bytes[1] = 0x11;//帧长度
-	//bytes[2] = 0x00;//帧长度
-	//bytes[3] = 0x8f;//帧命令
-	//chk += bytes[3];
-	//bytes[4] = 0x08;//帧命令
-	//chk += bytes[4];
-	//bytes[5] = SrcAdrr & 0xff;//源地址
-	//chk += bytes[5];
-	//bytes[6] = (SrcAdrr >> 8) & 0xff;
-	//chk += bytes[6];
-	//bytes[7] = 0;//源地址
-	//chk += bytes[7];
-	//bytes[8] = 0;
-	//chk += bytes[8];
-	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
-	//chk += bytes[9];
-	//bytes[10] =check;//空气温度
-	//chk += bytes[10];
-	//bytes[11] = ui.QYBtn->getChecked();//气压
-	//chk += bytes[11];
-	//bytes[12] = ui.FXBtn->getChecked();//风向风速
-	//chk += bytes[12];
-	//bytes[13] = ui.FSBtn->getChecked();//辐射
-	//chk += bytes[13];
-	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
-	//chk += bytes[14];
-	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
-	//chk += bytes[15];
-	//bytes[16] = ui.GZDBtn->getChecked();//光照度
-	//chk += bytes[16];
-	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
-	//chk += bytes[17];
-	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
-	//chk += bytes[18];
-	//bytes[19] = ui.YLBtn->getChecked();//雨量
-	//chk += bytes[19];
-	//bytes[20] = chk & 0xff;//校验位 低八位
-	//bytes[21] = (chk >> 8) & 0xff;//高八位
-	//bytes[22] = 0xdd;
-	//bytes[23] = 0xff;
-	//bytes[24] = 0xff;
-	//::send(Socket, (char *)bytes, 25, 0);
-	//StartAnimation();
-}
-
-//风向传感器开关
-void ControlUI::on_FXBtn_clicked(bool check)
-{
-	////状态改变
-	//cmmIndex = 2210;
-	//int chk = 0;
-	//int SrcAdrr = StationID.toInt();
-	//BYTE bytes[1024] = { 0 };
-	//bytes[0] = 0xaa;
-	//bytes[1] = 0x11;//帧长度
-	//bytes[2] = 0x00;//帧长度
-	//bytes[3] = 0x8f;//帧命令
-	//chk += bytes[3];
-	//bytes[4] = 0x08;//帧命令
-	//chk += bytes[4];
-	//bytes[5] = SrcAdrr & 0xff;//源地址
-	//chk += bytes[5];
-	//bytes[6] = (SrcAdrr >> 8) & 0xff;
-	//chk += bytes[6];
-	//bytes[7] = 0;//源地址
-	//chk += bytes[7];
-	//bytes[8] = 0;
-	//chk += bytes[8];
-	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
-	//chk += bytes[9];
-	//bytes[10] = ui.WDBtn->getChecked();//空气温度
-	//chk += bytes[10];
-	//bytes[11] = ui.QYBtn->getChecked();//气压
-	//chk += bytes[11];
-	//bytes[12] = check;//风向风速
-	//chk += bytes[12];
-	//bytes[13] = ui.FSBtn->getChecked();//辐射
-	//chk += bytes[13];
-	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
-	//chk += bytes[14];
-	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
-	//chk += bytes[15];
-	//bytes[16] = ui.GZDBtn->getChecked();//光照度
-	//chk += bytes[16];
-	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
-	//chk += bytes[17];
-	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
-	//chk += bytes[18];
-	//bytes[19] = ui.YLBtn->getChecked();//雨量
-	//chk += bytes[19];
-	//bytes[20] = chk & 0xff;//校验位 低八位
-	//bytes[21] = (chk >> 8) & 0xff;//高八位
-	//bytes[22] = 0xdd;
-	//bytes[23] = 0xff;
-	//bytes[24] = 0xff;
-	//::send(Socket, (char *)bytes, 25, 0);
-	//StartAnimation();
-}
-
-//紫外线传感器开关
-void ControlUI::on_ZWXBtn_clicked(bool check)
-{
-	////状态改变
-	//cmmIndex = 2211;
-	//int chk = 0;
-	//int SrcAdrr = StationID.toInt();
-	//BYTE bytes[1024] = { 0 };
-	//bytes[0] = 0xaa;
-	//bytes[1] = 0x11;//帧长度
-	//bytes[2] = 0x00;//帧长度
-	//bytes[3] = 0x8f;//帧命令
-	//chk += bytes[3];
-	//bytes[4] = 0x08;//帧命令
-	//chk += bytes[4];
-	//bytes[5] = SrcAdrr & 0xff;//源地址
-	//chk += bytes[5];
-	//bytes[6] = (SrcAdrr >> 8) & 0xff;
-	//chk += bytes[6];
-	//bytes[7] = 0;//源地址
-	//chk += bytes[7];
-	//bytes[8] = 0;
-	//chk += bytes[8];
-	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
-	//chk += bytes[9];
-	//bytes[10] = ui.WDBtn->getChecked();//空气温度
-	//chk += bytes[10];
-	//bytes[11] = ui.QYBtn->getChecked();//气压
-	//chk += bytes[11];
-	//bytes[12] = ui.FXBtn->getChecked();//风向风速
-	//chk += bytes[12];
-	//bytes[13] = ui.FSBtn->getChecked();//辐射
-	//chk += bytes[13];
-	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
-	//chk += bytes[14];
-	//bytes[15] =check;//紫外线
-	//chk += bytes[15];
-	//bytes[16] = ui.GZDBtn->getChecked();//光照度
-	//chk += bytes[16];
-	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
-	//chk += bytes[17];
-	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
-	//chk += bytes[18];
-	//bytes[19] = ui.YLBtn->getChecked();//雨量
-	//chk += bytes[19];
-	//bytes[20] = chk & 0xff;//校验位 低八位
-	//bytes[21] = (chk >> 8) & 0xff;//高八位
-	//bytes[22] = 0xdd;
-	//bytes[23] = 0xff;
-	//bytes[24] = 0xff;
-	//::send(Socket, (char *)bytes, 25, 0);
-	//StartAnimation();
-}
-
-//总辐射传感器开关
-void ControlUI::on_FSBtn_clicked(bool check)
-{
-	////状态改变
-	//cmmIndex = 2212;
-	//int chk = 0;
-	//int SrcAdrr = StationID.toInt();
-	//BYTE bytes[1024] = { 0 };
-	//bytes[0] = 0xaa;
-	//bytes[1] = 0x11;//帧长度
-	//bytes[2] = 0x00;//帧长度
-	//bytes[3] = 0x8f;//帧命令
-	//chk += bytes[3];
-	//bytes[4] = 0x08;//帧命令
-	//chk += bytes[4];
-	//bytes[5] = SrcAdrr & 0xff;//源地址
-	//chk += bytes[5];
-	//bytes[6] = (SrcAdrr >> 8) & 0xff;
-	//chk += bytes[6];
-	//bytes[7] = 0;//源地址
-	//chk += bytes[7];
-	//bytes[8] = 0;
-	//chk += bytes[8];
-	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
-	//chk += bytes[9];
-	//bytes[10] = ui.WDBtn->getChecked();//空气温度
-	//chk += bytes[10];
-	//bytes[11] = ui.QYBtn->getChecked();//气压
-	//chk += bytes[11];
-	//bytes[12] = ui.FXBtn->getChecked();//风向风速
-	//chk += bytes[12];
-	//bytes[13] = check;//辐射
-	//chk += bytes[13];
-	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
-	//chk += bytes[14];
-	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
-	//chk += bytes[15];
-	//bytes[16] = ui.GZDBtn->getChecked();//光照度
-	//chk += bytes[16];
-	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
-	//chk += bytes[17];
-	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
-	//chk += bytes[18];
-	//bytes[19] = ui.YLBtn->getChecked();//雨量
-	//chk += bytes[19];
-	//bytes[20] = chk & 0xff;//校验位 低八位
-	//bytes[21] = (chk >> 8) & 0xff;//高八位
-	//bytes[22] = 0xdd;
-	//bytes[23] = 0xff;
-	//bytes[24] = 0xff;
-	//::send(Socket, (char *)bytes, 25, 0);
-	//StartAnimation();
-}
-
-//光照度传感器开关
-void ControlUI::on_GZDBtn_clicked(bool check)
-{
-	////状态改变
-	//cmmIndex = 2213;
-	//int chk = 0;
-	//int SrcAdrr = StationID.toInt();
-	//BYTE bytes[1024] = { 0 };
-	//bytes[0] = 0xaa;
-	//bytes[1] = 0x11;//帧长度
-	//bytes[2] = 0x00;//帧长度
-	//bytes[3] = 0x8f;//帧命令
-	//chk += bytes[3];
-	//bytes[4] = 0x08;//帧命令
-	//chk += bytes[4];
-	//bytes[5] = SrcAdrr & 0xff;//源地址
-	//chk += bytes[5];
-	//bytes[6] = (SrcAdrr >> 8) & 0xff;
-	//chk += bytes[6];
-	//bytes[7] = 0;//源地址
-	//chk += bytes[7];
-	//bytes[8] = 0;
-	//chk += bytes[8];
-	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
-	//chk += bytes[9];
-	//bytes[10] = ui.WDBtn->getChecked();//空气温度
-	//chk += bytes[10];
-	//bytes[11] = ui.QYBtn->getChecked();//气压
-	//chk += bytes[11];
-	//bytes[12] = ui.FXBtn->getChecked();//风向风速
-	//chk += bytes[12];
-	//bytes[13] = ui.FSBtn->getChecked();//辐射
-	//chk += bytes[13];
-	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
-	//chk += bytes[14];
-	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
-	//chk += bytes[15];
-	//bytes[16] = check;//光照度
-	//chk += bytes[16];
-	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
-	//chk += bytes[17];
-	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
-	//chk += bytes[18];
-	//bytes[19] = ui.YLBtn->getChecked();//雨量
-	//chk += bytes[19];
-	//bytes[20] = chk & 0xff;//校验位 低八位
-	//bytes[21] = (chk >> 8) & 0xff;//高八位
-	//bytes[22] = 0xdd;
-	//bytes[23] = 0xff;
-	//bytes[24] = 0xff;
-	//::send(Socket, (char *)bytes, 25, 0);
-	//StartAnimation();
-}
-
-//气压传感器开关
-void ControlUI::on_QYBtn_clicked(bool check)
-{
-	////状态改变
-	//cmmIndex = 2214;
-	//int chk = 0;
-	//int SrcAdrr = StationID.toInt();
-	//BYTE bytes[1024] = { 0 };
-	//bytes[0] = 0xaa;
-	//bytes[1] = 0x11;//帧长度
-	//bytes[2] = 0x00;//帧长度
-	//bytes[3] = 0x8f;//帧命令
-	//chk += bytes[3];
-	//bytes[4] = 0x08;//帧命令
-	//chk += bytes[4];
-	//bytes[5] = SrcAdrr & 0xff;//源地址
-	//chk += bytes[5];
-	//bytes[6] = (SrcAdrr >> 8) & 0xff;
-	//chk += bytes[6];
-	//bytes[7] = 0;//源地址
-	//chk += bytes[7];
-	//bytes[8] = 0;
-	//chk += bytes[8];
-	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
-	//chk += bytes[9];
-	//bytes[10] = ui.WDBtn->getChecked();//空气温度
-	//chk += bytes[10];
-	//bytes[11] = check;//气压
-	//chk += bytes[11];
-	//bytes[12] = ui.FXBtn->getChecked();//风向风速
-	//chk += bytes[12];
-	//bytes[13] = ui.FSBtn->getChecked();//辐射
-	//chk += bytes[13];
-	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
-	//chk += bytes[14];
-	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
-	//chk += bytes[15];
-	//bytes[16] = ui.GZDBtn->getChecked();//光照度
-	//chk += bytes[16];
-	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
-	//chk += bytes[17];
-	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
-	//chk += bytes[18];
-	//bytes[19] = ui.YLBtn->getChecked();//雨量
-	//chk += bytes[19];
-	//bytes[20] = chk & 0xff;//校验位 低八位
-	//bytes[21] = (chk >> 8) & 0xff;//高八位
-	//bytes[22] = 0xdd;
-	//bytes[23] = 0xff;
-	//bytes[24] = 0xff;
-	//::send(Socket, (char *)bytes, 25, 0);
-	//StartAnimation();
-}
-
-//光和有效传感器开关
-void ControlUI::on_GHYXBtn_clicked(bool check)
-{
-	////状态改变
-	//cmmIndex = 2215;
-	//int chk = 0;
-	//int SrcAdrr = StationID.toInt();
-	//BYTE bytes[1024] = { 0 };
-	//bytes[0] = 0xaa;
-	//bytes[1] = 0x11;//帧长度
-	//bytes[2] = 0x00;//帧长度
-	//bytes[3] = 0x8f;//帧命令
-	//chk += bytes[3];
-	//bytes[4] = 0x08;//帧命令
-	//chk += bytes[4];
-	//bytes[5] = SrcAdrr & 0xff;//源地址
-	//chk += bytes[5];
-	//bytes[6] = (SrcAdrr >> 8) & 0xff;
-	//chk += bytes[6];
-	//bytes[7] = 0;//源地址
-	//chk += bytes[7];
-	//bytes[8] = 0;
-	//chk += bytes[8];
-	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
-	//chk += bytes[9];
-	//bytes[10] = ui.WDBtn->getChecked();//空气温度
-	//chk += bytes[10];
-	//bytes[11] = check;//气压
-	//chk += bytes[11];
-	//bytes[12] = ui.FXBtn->getChecked();//风向风速
-	//chk += bytes[12];
-	//bytes[13] = ui.FSBtn->getChecked();//辐射
-	//chk += bytes[13];
-	//bytes[14] = check;//光和有效
-	//chk += bytes[14];
-	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
-	//chk += bytes[15];
-	//bytes[16] = ui.GZDBtn->getChecked();//光照度
-	//chk += bytes[16];
-	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
-	//chk += bytes[17];
-	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
-	//chk += bytes[18];
-	//bytes[19] = ui.YLBtn->getChecked();//雨量
-	//chk += bytes[19];
-	//bytes[20] = chk & 0xff;//校验位 低八位
-	//bytes[21] = (chk >> 8) & 0xff;//高八位
-	//bytes[22] = 0xdd;
-	//bytes[23] = 0xff;
-	//bytes[24] = 0xff;
-	//::send(Socket, (char *)bytes, 25, 0);
-	//StartAnimation();
-}
-
-//二氧化碳传感器开关
-void ControlUI::on_EYHTBtn_clicked(bool check)
-{
-	////状态改变
-	//cmmIndex = 2216;
-	//int chk = 0;
-	//int SrcAdrr = StationID.toInt();
-	//BYTE bytes[1024] = { 0 };
-	//bytes[0] = 0xaa;
-	//bytes[1] = 0x11;//帧长度
-	//bytes[2] = 0x00;//帧长度
-	//bytes[3] = 0x8f;//帧命令
-	//chk += bytes[3];
-	//bytes[4] = 0x08;//帧命令
-	//chk += bytes[4];
-	//bytes[5] = SrcAdrr & 0xff;//源地址
-	//chk += bytes[5];
-	//bytes[6] = (SrcAdrr >> 8) & 0xff;
-	//chk += bytes[6];
-	//bytes[7] = 0;//源地址
-	//chk += bytes[7];
-	//bytes[8] = 0;
-	//chk += bytes[8];
-	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
-	//chk += bytes[9];
-	//bytes[10] = ui.WDBtn->getChecked();//空气温度
-	//chk += bytes[10];
-	//bytes[11] = ui.QYBtn->getChecked();//气压
-	//chk += bytes[11];
-	//bytes[12] = ui.FXBtn->getChecked();//风向风速
-	//chk += bytes[12];
-	//bytes[13] = ui.FSBtn->getChecked();//辐射
-	//chk += bytes[13];
-	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
-	//chk += bytes[14];
-	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
-	//chk += bytes[15];
-	//bytes[16] = ui.GZDBtn->getChecked();//光照度
-	//chk += bytes[16];
-	//bytes[17] = check;//二氧化碳
-	//chk += bytes[17];
-	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
-	//chk += bytes[18];
-	//bytes[19] = ui.YLBtn->getChecked();//雨量
-	//chk += bytes[19];
-	//bytes[20] = chk & 0xff;//校验位 低八位
-	//bytes[21] = (chk >> 8) & 0xff;//高八位
-	//bytes[22] = 0xdd;
-	//bytes[23] = 0xff;
-	//bytes[24] = 0xff;
-	//::send(Socket, (char *)bytes, 25, 0);
-	//StartAnimation();
-}
-
-//插针式土壤水分传感器开关
-void ControlUI::on_CZSBtn_clicked(bool check)
-{
-	////状态改变
-	//cmmIndex = 2217;
-	//int chk = 0;
-	//int SrcAdrr = StationID.toInt();
-	//BYTE bytes[1024] = { 0 };
-	//bytes[0] = 0xaa;
-	//bytes[1] = 0x11;//帧长度
-	//bytes[2] = 0x00;//帧长度
-	//bytes[3] = 0x8f;//帧命令
-	//chk += bytes[3];
-	//bytes[4] = 0x08;//帧命令
-	//chk += bytes[4];
-	//bytes[5] = SrcAdrr & 0xff;//源地址
-	//chk += bytes[5];
-	//bytes[6] = (SrcAdrr >> 8) & 0xff;
-	//chk += bytes[6];
-	//bytes[7] = 0;//源地址
-	//chk += bytes[7];
-	//bytes[8] = 0;
-	//chk += bytes[8];
-	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
-	//chk += bytes[9];
-	//bytes[10] = ui.WDBtn->getChecked();//空气温度
-	//chk += bytes[10];
-	//bytes[11] = ui.QYBtn->getChecked();//气压
-	//chk += bytes[11];
-	//bytes[12] = ui.FXBtn->getChecked();//风向风速
-	//chk += bytes[12];
-	//bytes[13] = ui.FSBtn->getChecked();//辐射
-	//chk += bytes[13];
-	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
-	//chk += bytes[14];
-	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
-	//chk += bytes[15];
-	//bytes[16] = ui.GZDBtn->getChecked();//光照度
-	//chk += bytes[16];
-	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
-	//chk += bytes[17];
-	//bytes[18] =check;//插针式土壤
-	//chk += bytes[18];
-	//bytes[19] = ui.YLBtn->getChecked();//雨量
-	//chk += bytes[19];
-	//bytes[20] = chk & 0xff;//校验位 低八位
-	//bytes[21] = (chk >> 8) & 0xff;//高八位
-	//bytes[22] = 0xdd;
-	//bytes[23] = 0xff;
-	//bytes[24] = 0xff;
-	//::send(Socket, (char *)bytes, 25, 0);
-	//StartAnimation();
-}
-
-//雨量传感器开关
-void ControlUI::on_YLBtn_clicked(bool check)
-{
-	////状态改变
-	//cmmIndex = 2218;
-	//int chk = 0;
-	//int SrcAdrr = StationID.toInt();
-	//BYTE bytes[1024] = { 0 };
-	//bytes[0] = 0xaa;
-	//bytes[1] = 0x11;//帧长度
-	//bytes[2] = 0x00;//帧长度
-	//bytes[3] = 0x8f;//帧命令
-	//chk += bytes[3];
-	//bytes[4] = 0x08;//帧命令
-	//chk += bytes[4];
-	//bytes[5] = SrcAdrr & 0xff;//源地址
-	//chk += bytes[5];
-	//bytes[6] = (SrcAdrr >> 8) & 0xff;
-	//chk += bytes[6];
-	//bytes[7] = 0;//源地址
-	//chk += bytes[7];
-	//bytes[8] = 0;
-	//chk += bytes[8];
-	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
-	//chk += bytes[9];
-	//bytes[10] = ui.WDBtn->getChecked();//空气温度
-	//chk += bytes[10];
-	//bytes[11] = ui.QYBtn->getChecked();//气压
-	//chk += bytes[11];
-	//bytes[12] = ui.FXBtn->getChecked();//风向风速
-	//chk += bytes[12];
-	//bytes[13] = ui.FSBtn->getChecked();//辐射
-	//chk += bytes[13];
-	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
-	//chk += bytes[14];
-	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
-	//chk += bytes[15];
-	//bytes[16] = ui.GZDBtn->getChecked();//光照度
-	//chk += bytes[16];
-	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
-	//chk += bytes[17];
-	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
-	//chk += bytes[18];
-	//bytes[19] = check;//雨量
-	//chk += bytes[19];
-	//bytes[20] = chk & 0xff;//校验位 低八位
-	//bytes[21] = (chk >> 8) & 0xff;//高八位
-	//bytes[22] = 0xdd;
-	//bytes[23] = 0xff;
-	//bytes[24] = 0xff;
-	//::send(Socket, (char *)bytes, 25, 0);
-	//StartAnimation();
-}
+// //土壤水分传感器开关
+//void ControlUI::on_TRBtn_clicked(bool check)
+//{
+//	////状态改变
+//	//cmmIndex = 2208;
+//	//int chk = 0;
+//	//int SrcAdrr = StationID.toInt();
+//	//BYTE bytes[1024] = { 0 };
+//	//bytes[0] = 0xaa;
+//	//bytes[1] = 0x11;//帧长度
+//	//bytes[2] = 0x00;//帧长度
+//	//bytes[3] = 0x8f;//帧命令
+//	//chk += bytes[3];
+//	//bytes[4] = 0x08;//帧命令
+//	//chk += bytes[4];
+//	//bytes[5] = SrcAdrr & 0xff;//源地址
+//	//chk += bytes[5];
+//	//bytes[6] = (SrcAdrr >> 8) & 0xff;
+//	//chk += bytes[6];
+//	//bytes[7] = 0;//源地址
+//	//chk += bytes[7];
+//	//bytes[8] = 0;
+//	//chk += bytes[8];
+//	//bytes[9] = check;//土壤水分
+//	//chk += bytes[9];
+//	//bytes[10] = ui.WDBtn->getChecked();//空气温度
+//	//chk += bytes[10];
+//	//bytes[11] = ui.QYBtn->getChecked();//气压
+//	//chk += bytes[11];
+//	//bytes[12] = ui.FXBtn->getChecked();//风向风速
+//	//chk += bytes[12];
+//	//bytes[13] = ui.FSBtn->getChecked();//辐射
+//	//chk += bytes[13];
+//	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
+//	//chk += bytes[14];
+//	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
+//	//chk += bytes[15];
+//	//bytes[16] = ui.GZDBtn->getChecked();//光照度
+//	//chk += bytes[16];
+//	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
+//	//chk += bytes[17];
+//	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
+//	//chk += bytes[18];
+//	//bytes[19] = ui.YLBtn->getChecked();//雨量
+//	//chk += bytes[19];
+//	//bytes[20] = chk & 0xff;//校验位 低八位
+//	//bytes[21] = (chk >> 8) & 0xff;//高八位
+//	//bytes[22] = 0xdd;
+//	//bytes[23] = 0xff;
+//	//bytes[24] = 0xff;
+//	//::send(Socket, (char *)bytes, 25, 0);
+//	//StartAnimation();
+//}
+//
+////温度传感器开关
+//void ControlUI::on_WDBtn_clicked(bool check)
+//{
+//	////状态改变
+//	//cmmIndex = 2209;
+//	//int chk = 0;
+//	//int SrcAdrr = StationID.toInt();
+//	//BYTE bytes[1024] = { 0 };
+//	//bytes[0] = 0xaa;
+//	//bytes[1] = 0x11;//帧长度
+//	//bytes[2] = 0x00;//帧长度
+//	//bytes[3] = 0x8f;//帧命令
+//	//chk += bytes[3];
+//	//bytes[4] = 0x08;//帧命令
+//	//chk += bytes[4];
+//	//bytes[5] = SrcAdrr & 0xff;//源地址
+//	//chk += bytes[5];
+//	//bytes[6] = (SrcAdrr >> 8) & 0xff;
+//	//chk += bytes[6];
+//	//bytes[7] = 0;//源地址
+//	//chk += bytes[7];
+//	//bytes[8] = 0;
+//	//chk += bytes[8];
+//	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
+//	//chk += bytes[9];
+//	//bytes[10] =check;//空气温度
+//	//chk += bytes[10];
+//	//bytes[11] = ui.QYBtn->getChecked();//气压
+//	//chk += bytes[11];
+//	//bytes[12] = ui.FXBtn->getChecked();//风向风速
+//	//chk += bytes[12];
+//	//bytes[13] = ui.FSBtn->getChecked();//辐射
+//	//chk += bytes[13];
+//	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
+//	//chk += bytes[14];
+//	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
+//	//chk += bytes[15];
+//	//bytes[16] = ui.GZDBtn->getChecked();//光照度
+//	//chk += bytes[16];
+//	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
+//	//chk += bytes[17];
+//	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
+//	//chk += bytes[18];
+//	//bytes[19] = ui.YLBtn->getChecked();//雨量
+//	//chk += bytes[19];
+//	//bytes[20] = chk & 0xff;//校验位 低八位
+//	//bytes[21] = (chk >> 8) & 0xff;//高八位
+//	//bytes[22] = 0xdd;
+//	//bytes[23] = 0xff;
+//	//bytes[24] = 0xff;
+//	//::send(Socket, (char *)bytes, 25, 0);
+//	//StartAnimation();
+//}
+//
+////风向传感器开关
+//void ControlUI::on_FXBtn_clicked(bool check)
+//{
+//	////状态改变
+//	//cmmIndex = 2210;
+//	//int chk = 0;
+//	//int SrcAdrr = StationID.toInt();
+//	//BYTE bytes[1024] = { 0 };
+//	//bytes[0] = 0xaa;
+//	//bytes[1] = 0x11;//帧长度
+//	//bytes[2] = 0x00;//帧长度
+//	//bytes[3] = 0x8f;//帧命令
+//	//chk += bytes[3];
+//	//bytes[4] = 0x08;//帧命令
+//	//chk += bytes[4];
+//	//bytes[5] = SrcAdrr & 0xff;//源地址
+//	//chk += bytes[5];
+//	//bytes[6] = (SrcAdrr >> 8) & 0xff;
+//	//chk += bytes[6];
+//	//bytes[7] = 0;//源地址
+//	//chk += bytes[7];
+//	//bytes[8] = 0;
+//	//chk += bytes[8];
+//	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
+//	//chk += bytes[9];
+//	//bytes[10] = ui.WDBtn->getChecked();//空气温度
+//	//chk += bytes[10];
+//	//bytes[11] = ui.QYBtn->getChecked();//气压
+//	//chk += bytes[11];
+//	//bytes[12] = check;//风向风速
+//	//chk += bytes[12];
+//	//bytes[13] = ui.FSBtn->getChecked();//辐射
+//	//chk += bytes[13];
+//	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
+//	//chk += bytes[14];
+//	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
+//	//chk += bytes[15];
+//	//bytes[16] = ui.GZDBtn->getChecked();//光照度
+//	//chk += bytes[16];
+//	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
+//	//chk += bytes[17];
+//	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
+//	//chk += bytes[18];
+//	//bytes[19] = ui.YLBtn->getChecked();//雨量
+//	//chk += bytes[19];
+//	//bytes[20] = chk & 0xff;//校验位 低八位
+//	//bytes[21] = (chk >> 8) & 0xff;//高八位
+//	//bytes[22] = 0xdd;
+//	//bytes[23] = 0xff;
+//	//bytes[24] = 0xff;
+//	//::send(Socket, (char *)bytes, 25, 0);
+//	//StartAnimation();
+//}
+//
+////紫外线传感器开关
+//void ControlUI::on_ZWXBtn_clicked(bool check)
+//{
+//	////状态改变
+//	//cmmIndex = 2211;
+//	//int chk = 0;
+//	//int SrcAdrr = StationID.toInt();
+//	//BYTE bytes[1024] = { 0 };
+//	//bytes[0] = 0xaa;
+//	//bytes[1] = 0x11;//帧长度
+//	//bytes[2] = 0x00;//帧长度
+//	//bytes[3] = 0x8f;//帧命令
+//	//chk += bytes[3];
+//	//bytes[4] = 0x08;//帧命令
+//	//chk += bytes[4];
+//	//bytes[5] = SrcAdrr & 0xff;//源地址
+//	//chk += bytes[5];
+//	//bytes[6] = (SrcAdrr >> 8) & 0xff;
+//	//chk += bytes[6];
+//	//bytes[7] = 0;//源地址
+//	//chk += bytes[7];
+//	//bytes[8] = 0;
+//	//chk += bytes[8];
+//	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
+//	//chk += bytes[9];
+//	//bytes[10] = ui.WDBtn->getChecked();//空气温度
+//	//chk += bytes[10];
+//	//bytes[11] = ui.QYBtn->getChecked();//气压
+//	//chk += bytes[11];
+//	//bytes[12] = ui.FXBtn->getChecked();//风向风速
+//	//chk += bytes[12];
+//	//bytes[13] = ui.FSBtn->getChecked();//辐射
+//	//chk += bytes[13];
+//	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
+//	//chk += bytes[14];
+//	//bytes[15] =check;//紫外线
+//	//chk += bytes[15];
+//	//bytes[16] = ui.GZDBtn->getChecked();//光照度
+//	//chk += bytes[16];
+//	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
+//	//chk += bytes[17];
+//	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
+//	//chk += bytes[18];
+//	//bytes[19] = ui.YLBtn->getChecked();//雨量
+//	//chk += bytes[19];
+//	//bytes[20] = chk & 0xff;//校验位 低八位
+//	//bytes[21] = (chk >> 8) & 0xff;//高八位
+//	//bytes[22] = 0xdd;
+//	//bytes[23] = 0xff;
+//	//bytes[24] = 0xff;
+//	//::send(Socket, (char *)bytes, 25, 0);
+//	//StartAnimation();
+//}
+//
+////总辐射传感器开关
+//void ControlUI::on_FSBtn_clicked(bool check)
+//{
+//	////状态改变
+//	//cmmIndex = 2212;
+//	//int chk = 0;
+//	//int SrcAdrr = StationID.toInt();
+//	//BYTE bytes[1024] = { 0 };
+//	//bytes[0] = 0xaa;
+//	//bytes[1] = 0x11;//帧长度
+//	//bytes[2] = 0x00;//帧长度
+//	//bytes[3] = 0x8f;//帧命令
+//	//chk += bytes[3];
+//	//bytes[4] = 0x08;//帧命令
+//	//chk += bytes[4];
+//	//bytes[5] = SrcAdrr & 0xff;//源地址
+//	//chk += bytes[5];
+//	//bytes[6] = (SrcAdrr >> 8) & 0xff;
+//	//chk += bytes[6];
+//	//bytes[7] = 0;//源地址
+//	//chk += bytes[7];
+//	//bytes[8] = 0;
+//	//chk += bytes[8];
+//	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
+//	//chk += bytes[9];
+//	//bytes[10] = ui.WDBtn->getChecked();//空气温度
+//	//chk += bytes[10];
+//	//bytes[11] = ui.QYBtn->getChecked();//气压
+//	//chk += bytes[11];
+//	//bytes[12] = ui.FXBtn->getChecked();//风向风速
+//	//chk += bytes[12];
+//	//bytes[13] = check;//辐射
+//	//chk += bytes[13];
+//	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
+//	//chk += bytes[14];
+//	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
+//	//chk += bytes[15];
+//	//bytes[16] = ui.GZDBtn->getChecked();//光照度
+//	//chk += bytes[16];
+//	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
+//	//chk += bytes[17];
+//	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
+//	//chk += bytes[18];
+//	//bytes[19] = ui.YLBtn->getChecked();//雨量
+//	//chk += bytes[19];
+//	//bytes[20] = chk & 0xff;//校验位 低八位
+//	//bytes[21] = (chk >> 8) & 0xff;//高八位
+//	//bytes[22] = 0xdd;
+//	//bytes[23] = 0xff;
+//	//bytes[24] = 0xff;
+//	//::send(Socket, (char *)bytes, 25, 0);
+//	//StartAnimation();
+//}
+//
+////光照度传感器开关
+//void ControlUI::on_GZDBtn_clicked(bool check)
+//{
+//	////状态改变
+//	//cmmIndex = 2213;
+//	//int chk = 0;
+//	//int SrcAdrr = StationID.toInt();
+//	//BYTE bytes[1024] = { 0 };
+//	//bytes[0] = 0xaa;
+//	//bytes[1] = 0x11;//帧长度
+//	//bytes[2] = 0x00;//帧长度
+//	//bytes[3] = 0x8f;//帧命令
+//	//chk += bytes[3];
+//	//bytes[4] = 0x08;//帧命令
+//	//chk += bytes[4];
+//	//bytes[5] = SrcAdrr & 0xff;//源地址
+//	//chk += bytes[5];
+//	//bytes[6] = (SrcAdrr >> 8) & 0xff;
+//	//chk += bytes[6];
+//	//bytes[7] = 0;//源地址
+//	//chk += bytes[7];
+//	//bytes[8] = 0;
+//	//chk += bytes[8];
+//	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
+//	//chk += bytes[9];
+//	//bytes[10] = ui.WDBtn->getChecked();//空气温度
+//	//chk += bytes[10];
+//	//bytes[11] = ui.QYBtn->getChecked();//气压
+//	//chk += bytes[11];
+//	//bytes[12] = ui.FXBtn->getChecked();//风向风速
+//	//chk += bytes[12];
+//	//bytes[13] = ui.FSBtn->getChecked();//辐射
+//	//chk += bytes[13];
+//	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
+//	//chk += bytes[14];
+//	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
+//	//chk += bytes[15];
+//	//bytes[16] = check;//光照度
+//	//chk += bytes[16];
+//	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
+//	//chk += bytes[17];
+//	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
+//	//chk += bytes[18];
+//	//bytes[19] = ui.YLBtn->getChecked();//雨量
+//	//chk += bytes[19];
+//	//bytes[20] = chk & 0xff;//校验位 低八位
+//	//bytes[21] = (chk >> 8) & 0xff;//高八位
+//	//bytes[22] = 0xdd;
+//	//bytes[23] = 0xff;
+//	//bytes[24] = 0xff;
+//	//::send(Socket, (char *)bytes, 25, 0);
+//	//StartAnimation();
+//}
+//
+////气压传感器开关
+//void ControlUI::on_QYBtn_clicked(bool check)
+//{
+//	////状态改变
+//	//cmmIndex = 2214;
+//	//int chk = 0;
+//	//int SrcAdrr = StationID.toInt();
+//	//BYTE bytes[1024] = { 0 };
+//	//bytes[0] = 0xaa;
+//	//bytes[1] = 0x11;//帧长度
+//	//bytes[2] = 0x00;//帧长度
+//	//bytes[3] = 0x8f;//帧命令
+//	//chk += bytes[3];
+//	//bytes[4] = 0x08;//帧命令
+//	//chk += bytes[4];
+//	//bytes[5] = SrcAdrr & 0xff;//源地址
+//	//chk += bytes[5];
+//	//bytes[6] = (SrcAdrr >> 8) & 0xff;
+//	//chk += bytes[6];
+//	//bytes[7] = 0;//源地址
+//	//chk += bytes[7];
+//	//bytes[8] = 0;
+//	//chk += bytes[8];
+//	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
+//	//chk += bytes[9];
+//	//bytes[10] = ui.WDBtn->getChecked();//空气温度
+//	//chk += bytes[10];
+//	//bytes[11] = check;//气压
+//	//chk += bytes[11];
+//	//bytes[12] = ui.FXBtn->getChecked();//风向风速
+//	//chk += bytes[12];
+//	//bytes[13] = ui.FSBtn->getChecked();//辐射
+//	//chk += bytes[13];
+//	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
+//	//chk += bytes[14];
+//	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
+//	//chk += bytes[15];
+//	//bytes[16] = ui.GZDBtn->getChecked();//光照度
+//	//chk += bytes[16];
+//	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
+//	//chk += bytes[17];
+//	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
+//	//chk += bytes[18];
+//	//bytes[19] = ui.YLBtn->getChecked();//雨量
+//	//chk += bytes[19];
+//	//bytes[20] = chk & 0xff;//校验位 低八位
+//	//bytes[21] = (chk >> 8) & 0xff;//高八位
+//	//bytes[22] = 0xdd;
+//	//bytes[23] = 0xff;
+//	//bytes[24] = 0xff;
+//	//::send(Socket, (char *)bytes, 25, 0);
+//	//StartAnimation();
+//}
+//
+////光和有效传感器开关
+//void ControlUI::on_GHYXBtn_clicked(bool check)
+//{
+//	////状态改变
+//	//cmmIndex = 2215;
+//	//int chk = 0;
+//	//int SrcAdrr = StationID.toInt();
+//	//BYTE bytes[1024] = { 0 };
+//	//bytes[0] = 0xaa;
+//	//bytes[1] = 0x11;//帧长度
+//	//bytes[2] = 0x00;//帧长度
+//	//bytes[3] = 0x8f;//帧命令
+//	//chk += bytes[3];
+//	//bytes[4] = 0x08;//帧命令
+//	//chk += bytes[4];
+//	//bytes[5] = SrcAdrr & 0xff;//源地址
+//	//chk += bytes[5];
+//	//bytes[6] = (SrcAdrr >> 8) & 0xff;
+//	//chk += bytes[6];
+//	//bytes[7] = 0;//源地址
+//	//chk += bytes[7];
+//	//bytes[8] = 0;
+//	//chk += bytes[8];
+//	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
+//	//chk += bytes[9];
+//	//bytes[10] = ui.WDBtn->getChecked();//空气温度
+//	//chk += bytes[10];
+//	//bytes[11] = check;//气压
+//	//chk += bytes[11];
+//	//bytes[12] = ui.FXBtn->getChecked();//风向风速
+//	//chk += bytes[12];
+//	//bytes[13] = ui.FSBtn->getChecked();//辐射
+//	//chk += bytes[13];
+//	//bytes[14] = check;//光和有效
+//	//chk += bytes[14];
+//	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
+//	//chk += bytes[15];
+//	//bytes[16] = ui.GZDBtn->getChecked();//光照度
+//	//chk += bytes[16];
+//	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
+//	//chk += bytes[17];
+//	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
+//	//chk += bytes[18];
+//	//bytes[19] = ui.YLBtn->getChecked();//雨量
+//	//chk += bytes[19];
+//	//bytes[20] = chk & 0xff;//校验位 低八位
+//	//bytes[21] = (chk >> 8) & 0xff;//高八位
+//	//bytes[22] = 0xdd;
+//	//bytes[23] = 0xff;
+//	//bytes[24] = 0xff;
+//	//::send(Socket, (char *)bytes, 25, 0);
+//	//StartAnimation();
+//}
+//
+////二氧化碳传感器开关
+//void ControlUI::on_EYHTBtn_clicked(bool check)
+//{
+//	////状态改变
+//	//cmmIndex = 2216;
+//	//int chk = 0;
+//	//int SrcAdrr = StationID.toInt();
+//	//BYTE bytes[1024] = { 0 };
+//	//bytes[0] = 0xaa;
+//	//bytes[1] = 0x11;//帧长度
+//	//bytes[2] = 0x00;//帧长度
+//	//bytes[3] = 0x8f;//帧命令
+//	//chk += bytes[3];
+//	//bytes[4] = 0x08;//帧命令
+//	//chk += bytes[4];
+//	//bytes[5] = SrcAdrr & 0xff;//源地址
+//	//chk += bytes[5];
+//	//bytes[6] = (SrcAdrr >> 8) & 0xff;
+//	//chk += bytes[6];
+//	//bytes[7] = 0;//源地址
+//	//chk += bytes[7];
+//	//bytes[8] = 0;
+//	//chk += bytes[8];
+//	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
+//	//chk += bytes[9];
+//	//bytes[10] = ui.WDBtn->getChecked();//空气温度
+//	//chk += bytes[10];
+//	//bytes[11] = ui.QYBtn->getChecked();//气压
+//	//chk += bytes[11];
+//	//bytes[12] = ui.FXBtn->getChecked();//风向风速
+//	//chk += bytes[12];
+//	//bytes[13] = ui.FSBtn->getChecked();//辐射
+//	//chk += bytes[13];
+//	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
+//	//chk += bytes[14];
+//	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
+//	//chk += bytes[15];
+//	//bytes[16] = ui.GZDBtn->getChecked();//光照度
+//	//chk += bytes[16];
+//	//bytes[17] = check;//二氧化碳
+//	//chk += bytes[17];
+//	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
+//	//chk += bytes[18];
+//	//bytes[19] = ui.YLBtn->getChecked();//雨量
+//	//chk += bytes[19];
+//	//bytes[20] = chk & 0xff;//校验位 低八位
+//	//bytes[21] = (chk >> 8) & 0xff;//高八位
+//	//bytes[22] = 0xdd;
+//	//bytes[23] = 0xff;
+//	//bytes[24] = 0xff;
+//	//::send(Socket, (char *)bytes, 25, 0);
+//	//StartAnimation();
+//}
+//
+////插针式土壤水分传感器开关
+//void ControlUI::on_CZSBtn_clicked(bool check)
+//{
+//	////状态改变
+//	//cmmIndex = 2217;
+//	//int chk = 0;
+//	//int SrcAdrr = StationID.toInt();
+//	//BYTE bytes[1024] = { 0 };
+//	//bytes[0] = 0xaa;
+//	//bytes[1] = 0x11;//帧长度
+//	//bytes[2] = 0x00;//帧长度
+//	//bytes[3] = 0x8f;//帧命令
+//	//chk += bytes[3];
+//	//bytes[4] = 0x08;//帧命令
+//	//chk += bytes[4];
+//	//bytes[5] = SrcAdrr & 0xff;//源地址
+//	//chk += bytes[5];
+//	//bytes[6] = (SrcAdrr >> 8) & 0xff;
+//	//chk += bytes[6];
+//	//bytes[7] = 0;//源地址
+//	//chk += bytes[7];
+//	//bytes[8] = 0;
+//	//chk += bytes[8];
+//	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
+//	//chk += bytes[9];
+//	//bytes[10] = ui.WDBtn->getChecked();//空气温度
+//	//chk += bytes[10];
+//	//bytes[11] = ui.QYBtn->getChecked();//气压
+//	//chk += bytes[11];
+//	//bytes[12] = ui.FXBtn->getChecked();//风向风速
+//	//chk += bytes[12];
+//	//bytes[13] = ui.FSBtn->getChecked();//辐射
+//	//chk += bytes[13];
+//	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
+//	//chk += bytes[14];
+//	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
+//	//chk += bytes[15];
+//	//bytes[16] = ui.GZDBtn->getChecked();//光照度
+//	//chk += bytes[16];
+//	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
+//	//chk += bytes[17];
+//	//bytes[18] =check;//插针式土壤
+//	//chk += bytes[18];
+//	//bytes[19] = ui.YLBtn->getChecked();//雨量
+//	//chk += bytes[19];
+//	//bytes[20] = chk & 0xff;//校验位 低八位
+//	//bytes[21] = (chk >> 8) & 0xff;//高八位
+//	//bytes[22] = 0xdd;
+//	//bytes[23] = 0xff;
+//	//bytes[24] = 0xff;
+//	//::send(Socket, (char *)bytes, 25, 0);
+//	//StartAnimation();
+//}
+//
+////雨量传感器开关
+//void ControlUI::on_YLBtn_clicked(bool check)
+//{
+//	////状态改变
+//	//cmmIndex = 2218;
+//	//int chk = 0;
+//	//int SrcAdrr = StationID.toInt();
+//	//BYTE bytes[1024] = { 0 };
+//	//bytes[0] = 0xaa;
+//	//bytes[1] = 0x11;//帧长度
+//	//bytes[2] = 0x00;//帧长度
+//	//bytes[3] = 0x8f;//帧命令
+//	//chk += bytes[3];
+//	//bytes[4] = 0x08;//帧命令
+//	//chk += bytes[4];
+//	//bytes[5] = SrcAdrr & 0xff;//源地址
+//	//chk += bytes[5];
+//	//bytes[6] = (SrcAdrr >> 8) & 0xff;
+//	//chk += bytes[6];
+//	//bytes[7] = 0;//源地址
+//	//chk += bytes[7];
+//	//bytes[8] = 0;
+//	//chk += bytes[8];
+//	//bytes[9] = ui.TRBtn->getChecked();//土壤水分
+//	//chk += bytes[9];
+//	//bytes[10] = ui.WDBtn->getChecked();//空气温度
+//	//chk += bytes[10];
+//	//bytes[11] = ui.QYBtn->getChecked();//气压
+//	//chk += bytes[11];
+//	//bytes[12] = ui.FXBtn->getChecked();//风向风速
+//	//chk += bytes[12];
+//	//bytes[13] = ui.FSBtn->getChecked();//辐射
+//	//chk += bytes[13];
+//	//bytes[14] = ui.GHYXBtn->getChecked();//光和有效
+//	//chk += bytes[14];
+//	//bytes[15] = ui.ZWXBtn->getChecked();//紫外线
+//	//chk += bytes[15];
+//	//bytes[16] = ui.GZDBtn->getChecked();//光照度
+//	//chk += bytes[16];
+//	//bytes[17] = ui.EYHTBtn->getChecked();//二氧化碳
+//	//chk += bytes[17];
+//	//bytes[18] = ui.CZSBtn->getChecked();//插针式土壤
+//	//chk += bytes[18];
+//	//bytes[19] = check;//雨量
+//	//chk += bytes[19];
+//	//bytes[20] = chk & 0xff;//校验位 低八位
+//	//bytes[21] = (chk >> 8) & 0xff;//高八位
+//	//bytes[22] = 0xdd;
+//	//bytes[23] = 0xff;
+//	//bytes[24] = 0xff;
+//	//::send(Socket, (char *)bytes, 25, 0);
+//	//StartAnimation();
+//}
 
 //设置开关
 void ControlUI::on_WSetBtn_clicked()

@@ -42,7 +42,7 @@ protected:
 private slots:
 	void slot_minWindow();
 
-    void on_TRBtn_clicked(bool check);
+   /* void on_TRBtn_clicked(bool check);
 
     void on_WDBtn_clicked(bool check);
 
@@ -62,7 +62,7 @@ private slots:
 
     void on_CZSBtn_clicked(bool check);
 
-    void on_YLBtn_clicked(bool check);
+    void on_YLBtn_clicked(bool check);*/
 
     void on_RIPBtn_clicked();
 

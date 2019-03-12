@@ -8,7 +8,6 @@
 #include "qdebug.h"
 #include "qcoreapplication.h"
 #include"qdir.h"
-
 //获取业务号
 int GetServiceTypeID()
 {
@@ -46,7 +45,7 @@ void  GetControlWidget(QString StationID, uint Socket, QWidget* parent) //<>
 //获取端口号
 int GetPort()
 {
-	return 8018;
+	return 23018;
 }
 
 //矫正时钟
@@ -130,7 +129,7 @@ LRESULT Char2Json(QString &buff, QJsonObject &json)
 
 					QString strBuff = buff.mid(i, j - i + 1);
 					QJsonObject SubJson;
-					SubJson.insert("ServiceTypeID", SNQX);
+					SubJson.insert("ServiceTypeID", BXS);
 					
 					Frame frame = { 0,NULL,NULL };
 					//获取帧长度
@@ -270,7 +269,7 @@ void Transform2Addr(QString data, QJsonObject &json)
 	json.insert("ValueCount", 8);//返回值个数
 	json.insert("Command", 2207);
     //地址
-	int addr = data[1].unicode() + data[0].unicode() * 256;
+	int addr =(int)(data[0].unicode() | data[1].unicode() << 8);
 	QJsonObject subJson;
 	subJson.insert("Count", 1);
 	subJson.insert("Params1", QString::number(addr));
@@ -287,9 +286,8 @@ void Transform2IPPort(QString data, QJsonObject &json)
 	IP.sprintf("%d.%d.%d.%d", (int)data[0].unicode(), (int)data[1].unicode(), (int)data[2].unicode(), (int)data[3].unicode());
 
 	//获取端口
-	int Port = data[5].unicode();
-	Port |= (data[4].unicode() << 8);
-	
+	int Port = (int)(data[4].unicode() | data[5].unicode() << 8);
+
 	QJsonObject subJson;
 	subJson.insert("Count", 2);
 	subJson.insert("Params1",IP);
@@ -315,140 +313,155 @@ void Transform2FeatureData(QString data, QJsonObject &json)
 	//7，8为源采集地址
 
 	//获取采集板电压
-	int v = data[9].unicode() * 256 + data[10].unicode();
+	int v = (int)(data[9].unicode() | data[10].unicode() << 8);
 	float v_f = (float)v / 100.00;
 	json.insert("MainClctrVltgVal", v_f);
 
 	//获取采集板温度
-	 v = data[11].unicode() * 256 + data[12].unicode();
+	 v = (int)(data[11].unicode() | data[12].unicode() << 8);
 	 v_f = (float)v / 100.00;
 	 json.insert("MainClctrTmprtVal", v_f);
 
 	 //第一层土壤水分含水量
-	  v = data[13].unicode() * 256 + data[14].unicode();
+	  v = (int)(data[13].unicode() | data[14].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v!= 65535)
 		  json.insert("SOILVOLUME10", v_f);
 
 	  //第二层土壤水分含水量
-	  v = data[15].unicode() * 256 + data[16].unicode();
+	  v = (int)(data[15].unicode() | data[16].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 		  json.insert("SOILVOLUME20", v_f);
 
 	  //第三层土壤水分含水量
-	  v = data[17].unicode() * 256 + data[18].unicode();
+	  v = (int)(data[17].unicode() | data[18].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 	  json.insert("SOILVOLUME30", v_f);
 
 	  //第四层土壤水分含水量
-	  v = data[19].unicode() * 256 + data[20].unicode();
+	  v = (int)(data[19].unicode() | data[20].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 	  json.insert("SOILVOLUME40", v_f);
 
 	  //第一层土壤水分频率
-	  v = data[21].unicode() * 256 + data[22].unicode();
+	  v = (int)(data[21].unicode() | data[22].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 	  json.insert("SOILFREQUENCY10", v_f);
 
 	  //第二层土壤水分频率
-	  v = data[23].unicode() * 256 + data[24].unicode();
+	  v = (int)(data[23].unicode() | data[24].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 	  json.insert("SOILFREQUENCY20", v_f);
 
 	  //第三层土壤水分频率
-	  v = data[25].unicode() * 256 + data[26].unicode();
+	  v = (int)(data[25].unicode() | data[26].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 	  json.insert("SOILFREQUENCY30", v_f);
 
 	  //第四层土壤水分频率
-	  v = data[27].unicode() * 256 + data[28].unicode();
+	  v = (int)(data[27].unicode() | data[28].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 	  json.insert("SOILFREQUENCY40", v_f);
 
 	  //第一层土壤温度
-	  v = data[29].unicode() * 256 + data[30].unicode();
+	  v = (int)(data[29].unicode() | data[30].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 	  json.insert("ST_ST1", v_f);
 
 	  //第二层土壤温度
-	  v = data[31].unicode() * 256 + data[32].unicode();
+	  v = (int)(data[31].unicode() | data[32].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 	  json.insert("ST_ST2", v_f);
 
 	  //第三层土壤温度
-	  v = data[33].unicode() * 256 + data[34].unicode();
+	  v = (int)(data[33].unicode() | data[34].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 	  json.insert("ST_ST3", v_f);
 
 	  //第四层土壤温度
-	  v = data[35].unicode() * 256 + data[36].unicode();
+	  v = (int)(data[35].unicode() | data[36].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 	  json.insert("ST_ST4", v_f);
 
 	  //大气温度
-	  short tmp= (short)(data[38].unicode()| data[37].unicode()<< 8);
+	  short tmp= (short)(data[37].unicode()| data[38].unicode()<< 8);
 	  //v = data[37].unicode() * 256 + data[38].unicode();
 	  v_f = (float)tmp / 100.00;
 	  if (tmp != 32767)
 	  json.insert("AT_AT1", v_f);
 
 	  //大气湿度
-	  v = data[39].unicode() * 256 + data[40].unicode();
+
+	  v = (int)(data[39].unicode() | data[40].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 	  json.insert("AH_RH1", v_f);
 
 	  //大气压
-	  v = data[41].unicode() * 256 + data[42].unicode();
+	  v = (int)(data[41].unicode() | data[42].unicode() << 8);
 	  if (v != 65535)
 	  json.insert("STATIONPRESSURE", v);
 
 	  //风向
-	  v = data[43].unicode() * 256 + data[44].unicode();
+	  v = (int)(data[43].unicode() | data[44].unicode() << 8);
 	  if (v != 65535)
 	  json.insert("WD_IWD", v);
 
 	  //风速
-	  v = data[45].unicode() * 256 + data[46].unicode();
+	  v = (int)(data[45].unicode() | data[46].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 	  json.insert("WS_IWS1", v_f);
 
-	  //47 48太阳辐射 49 50光和有效 51 52紫外线强度 
+	  //47 48太阳辐射 
+	   v = (int)(data[47].unicode() | data[48].unicode() << 8);
+	  if (v != 65535)
+	  json.insert("R_TRI", v);
+	  
+	  //49 50光和有效 
+	   v = (int)(data[49].unicode() | data[50].unicode() << 8);
+	  if (v != 65535)
+	  json.insert("R_PERI", v);
+	  
+	  //51 52紫外线强度 
+	   v = (int)(data[51].unicode() | data[52].unicode() << 8);
+	  if (v != 65535)
+	  json.insert("R_UR", v);
+	  
 	  //光照
-	  v = data[53].unicode() * 65536 + data[54].unicode()*256 +data[55].unicode();
+	  v = (int)(data[53].unicode() | data[54].unicode() << 8 | data[55].unicode()<<16);
 	  if (v != 65535*256)
 	  json.insert("BeamStrength", v);
 
 	  //56 57二氧化碳
-	  v = data[56].unicode() * 256 + data[57].unicode();
+	  v = (int)(data[56].unicode() | data[57].unicode() << 8);
 	  if (v != 65535)
 	  json.insert("CO2IC",v);
 	  //雨量
-	  v = data[58].unicode() * 256 + data[59].unicode();
+	  v = (int)(data[58].unicode() | data[59].unicode() << 8);
 	  v_f = (float)v / 10.00;
 	  if (v != 65535)
 	  json.insert("MNTRNFL", v_f);
 
 	  //插针式土壤水分
-	  v = data[60].unicode() * 256 + data[61].unicode();
+	  v = (int)(data[60].unicode() | data[61].unicode() << 8);
 	  v_f = (float)v / 100.00;
 	  if (v != 65535)
 	  json.insert("SOILVOLUME50", v_f);
 
 	  //插针式土壤EC
-	  v = data[62].unicode() * 256 + data[63].unicode();
+	  v = (int)(data[62].unicode() | data[63].unicode() << 8);
 	  if (v != 65535)
 	  json.insert("EC", v);
 }
@@ -689,9 +702,9 @@ void SetCommand(uint Socket, int CommandType, QString Params1, QString Params2, 
 		chk += bytes[11];
 		bytes[12] = ip4;
 		chk += bytes[12];
-		bytes[13] = (port >> 8) & 0xff;//port
+		bytes[13] = port & 0xff;//port 低八位
 		chk += bytes[13];
-		bytes[14] = port & 0xff;
+		bytes[14] = (port >>8)& 0xff;//高八位
 		chk += bytes[14];
 		bytes[15] = chk & 0xff;//校验位 低八位
 		bytes[16] = (chk >> 8) & 0xff;//高八位
@@ -859,9 +872,9 @@ void SetCommand(uint Socket, int CommandType, QString Params1, QString Params2, 
 		chk += bytes[7];
 		bytes[8] = 0;
 		chk += bytes[8];
-		bytes[9] = (addr >> 8) & 0xff;//地址高八位
+		bytes[9] = addr& 0xff;
 		chk += bytes[9];
-		bytes[10] = addr;
+		bytes[10] = (addr >> 8) & 0xff;//地址高八位
 		chk += bytes[10];
 		bytes[11] = chk & 0xff;//校验位 低八位
 		bytes[12] = (chk >> 8) & 0xff;//高八位

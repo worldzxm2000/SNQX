@@ -149,7 +149,6 @@ LRESULT Char2Json(QString &buff, QJsonObject &json)
 					SubJson.insert("DeviceID","NULL" );
 					//数据类型
 					SubJson.insert("DataSourceID",1);
-					SubJson.insert("typeid",1);
 					frame.data = strBuff.mid(9, frame.len);
 					//判断接收命令类型
 					switch (frame.Command)
@@ -196,7 +195,7 @@ LRESULT Char2Json(QString &buff, QJsonObject &json)
 					QDateTime current_date_time = QDateTime::currentDateTime();
 					QString current_date = current_date_time.toString("yyyy.MM.dd hh:mm:ss");
 					QString current_day = current_date_time.toString("yyyy-MM-dd");
-					QString fileName = QCoreApplication::applicationDirPath() + "\\SNQX\\" + QString::number(frame.SrcAddr) + "\\" + current_day;
+					QString fileName = QCoreApplication::applicationDirPath() + "\\"+ QString::fromLocal8Bit("室内气象站业务") +"\\" + QString::number(frame.SrcAddr) + "\\" + current_day;
 					QDir dir(fileName);
 					if (!dir.exists())
 						dir.mkpath(fileName);//创建多级目录

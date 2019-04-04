@@ -201,10 +201,6 @@ LRESULT Char2Json(QString &buff, QJsonObject &json)
 						dir.mkpath(fileName);//创建多级目录
 					fileName += "\\data.txt";
 					QFile file(fileName);
-
-					if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
-					{
-					}
 					QTextStream in(&file);
 
 					QString ConvStr;

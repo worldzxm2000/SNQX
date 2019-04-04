@@ -12,7 +12,7 @@
 #define HEADER 0xAA
 #define TAIL 0xDD
 #define FE 0xFE
-#define BXS "7"
+#define SNQX "7"
 typedef struct DataFrame {
 	//³¤¶È(2×Ö½Ú)
 	int len;

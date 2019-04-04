@@ -129,7 +129,7 @@ LRESULT Char2Json(QString &buff, QJsonObject &json)
 
 					QString strBuff = buff.mid(i, j - i + 1);
 					QJsonObject SubJson;
-					SubJson.insert("ServiceTypeID", BXS);
+					SubJson.insert("ServiceTypeID", SNQX);
 					
 					Frame frame = { 0,NULL,NULL };
 					//获取帧长度

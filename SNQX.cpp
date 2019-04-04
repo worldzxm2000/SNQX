@@ -202,7 +202,7 @@ LRESULT Char2Json(QString &buff, QJsonObject &json)
 					fileName += "\\data.txt";
 					QFile file(fileName);
 					QTextStream in(&file);
-
+					file.open(QIODevice::ReadWrite | QIODevice::Append);
 					QString ConvStr;
 					for (int i = 0; i < strBuff.length(); i++)
 					{
